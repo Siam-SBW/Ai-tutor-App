@@ -24,10 +24,23 @@ st.set_page_config(page_title="AI Exam Tutor", layout="wide")
 
 API_KEY = st.secrets["GEMINI_API_KEY"] 
 
+st.write("🔑 Key starts with:", API_KEY[:10])
+st.write("🔑 Key length:", len(API_KEY))
+
+genai.configure(api_key=API_KEY)
+
+# DEBUG: ทดสอบเรียก API เลย
+try:
+    test_model = genai.GenerativeModel('gemini-1.5-flash')
+    test_response = test_model.generate_content("say hello")
+    st.success(f"✅ API ใช้งานได้: {test_response.text}")
+except Exception as e:
+    st.error(f"❌ API Error: {str(e)}")
+    st.stop()
+
 genai.configure(api_key=API_KEY)
 
 model = genai.GenerativeModel('gemini-2.5-flash-preview-05-20')
-
 
 
 # --- 3. ฟังก์ชันการคำนวณและประมวลผล ---
