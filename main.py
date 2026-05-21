@@ -26,7 +26,7 @@ API_KEY = st.secrets["GEMINI_API_KEY"]
 
 genai.configure(api_key=API_KEY)
 
-model = genai.GenerativeModel('gemini-2.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash-preview-05-20')
 
 
 
@@ -71,6 +71,12 @@ def process_pdf(file_bytes):
     
 
     response = model.generate_content(prompt)
+
+    try:
+        response = model.generate_content(prompt)
+    except Exception as e:
+        st.error(f"API Error: {str(e)}")
+        raise e
 
     try:
 
